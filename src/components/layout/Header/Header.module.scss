@@ -1,0 +1,27 @@
+@import '../../../styles/settings.scss';
+
+.root {
+  background-color: #1e3799;
+  z-index: 100;
+  width: 100vw;
+}
+
+.container {
+  width: 1140px;
+  margin: 0 auto;
+  height: 100px;
+  color: #fff;
+  padding: 15px 0;
+
+  a {
+    color: #fff;
+    font-size: 25px;
+    text-decoration: none;
+  }
+}
+
+.navigation{
+  display: flex;
+  gap: 15px;
+
+}

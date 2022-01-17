@@ -1,0 +1,64 @@
+{
+  "api": {
+    "posts": {
+      "data": [
+        {
+          "id": 1,
+          "title": "Pierwsze ogloszenie",
+          "content": "1 - Ogloszenie o czyms tam bla bla bla bla ble",
+          "email": "admin@admin.com",
+          "status": "published",
+          "price": "1000",
+          "phoneNumber": "654-478-251",
+          "localization": "Katy",
+          "publicDate": "2022-01-05T02:20:43.209Z",
+          "modDate": ""
+        },
+        {
+          "id": 2,
+          "title": "Drugie ogloszenie",
+          "content": "2 - Ogloszenie o czyms tam bla bla bla bla ble",
+          "email": "admin@admin.com",
+          "status": "published",
+          "price": "1000",
+          "phoneNumber": "654-478-251",
+          "localization": "Katy",
+          "publicDate": "2022-01-05T01:20:43.209Z",
+          "modDate": ""
+        },
+        {
+          "id": 3,
+          "title": "Trzecie ogloszenie",
+          "content": "3 - Ogloszenie o czyms tam bla bla bla bla ble",
+          "email": "user@user.com",
+          "status": "published",
+          "price": "1000",
+          "phoneNumber": "654-478-251",
+          "localization": "Katy",
+          "publicDate": "2022-01-04T02:50:43.209Z",
+          "modDate": ""
+        },
+        {
+          "id": 4,
+          "title": "Czwarte ogloszenie",
+          "content": "4 - Ogloszenie o czyms tam bla bla bla bla ble",
+          "email": "user@user.com",
+          "status": "published",
+          "price": "1000",
+          "phoneNumber": "654-478-251",
+          "localization": "Katy",
+          "publicDate": "2022-01-05T02:10:43.209Z",
+          "modDate": ""
+        }
+      ],
+      "loading": {
+        "active": false,
+        "error": false
+      }
+    },
+    "userInfo": {
+      "loginStatus": "not logged user",
+      "loginEmail": ""
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@import "../../../styles/settings.scss";
+@import "../../../styles/global.scss";
+
+// .root {
+
+// }
+
+.container {
+  width: 1140px;
+  margin: 0 auto;
+  color: rgb(0, 0, 0);
+  padding: 15px 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.link {
+  text-decoration: none;
+  color: #000;
+}
+
+.link:hover {
+  color: gold;
+}
+
+.editButton {
+  margin-top: 50px;
+  text-align: center;
+}
