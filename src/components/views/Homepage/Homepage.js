@@ -6,7 +6,7 @@ import { ifLogged } from '../../../utils/functions';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
-import { fetchFromAPI, getAll } from '../../../redux/postsRedux';
+import { getAll, fetchStarted } from '../../../redux/postsRedux';
 import { getloginStatus } from '../../../redux/loggedUserRedux';
 import { connect } from 'react-redux';
 
@@ -69,7 +69,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchData: () => dispatch(fetchFromAPI()),
+  fetchData: () => dispatch(fetchStarted()),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);

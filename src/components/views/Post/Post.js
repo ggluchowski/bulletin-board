@@ -57,7 +57,7 @@ const Component = (props) => {
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  location: PropTypes.node,
+  location: PropTypes.object,
   getEmail: PropTypes.string,
 };
 

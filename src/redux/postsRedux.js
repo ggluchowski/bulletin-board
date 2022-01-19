@@ -27,10 +27,10 @@ export const fetchFromAPI = () => {
     dispatch(fetchStarted());
 
     Axios
-      .get('http://localhost:3000')
+      .get('http://localhost:3000/posts')
       .then(res => {
         console.log(res);
-        dispatch(fetchStarted());
+        dispatch(fetchSuccess(res.data));
       })
       .catch(err => {
         dispatch(fetchError(err.message || true));

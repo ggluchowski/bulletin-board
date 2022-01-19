@@ -159,7 +159,7 @@ class Component extends React.Component {
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  location: PropTypes.node,
+  location: PropTypes.object,
   editPost: PropTypes.func,
 };
 

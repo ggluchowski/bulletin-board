@@ -1,12 +1,12 @@
 @import '../../../styles/settings.scss';
 @import '../../../styles/global.scss';
 
-.root {
-  background-color: #fff;
-}
+// .root {
+//   background-color: #fff;
+// }
 
 .container {
-  width: 1140px;
+  max-width: 1140px;
   margin: 0 auto;
   color: rgb(0, 0, 0);
   padding: 15px 0;
