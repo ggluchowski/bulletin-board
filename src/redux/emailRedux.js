@@ -1,11 +1,9 @@
 /* selectors */
-export const getEmailStatus = ({ loginEmail}) => loginEmail;
+export const getEmailStatus = ({ loginEmail }) => loginEmail;
 
-export const filterBulletinByUser = ({ posts,loginEmail }) => {
-  const data = posts.data;
-  let output = data.filter(post => post.email === loginEmail);
-  return output;
-};
+export const filterBulletinByUser = ({ posts, loginEmail }) => (
+  posts.data.filter(item => item.email === loginEmail)
+);
 
 /* action name creator */
 const reducerName = 'emailStatus';

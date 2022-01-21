@@ -6,73 +6,88 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import { formatDate, ifAuthor } from '../../../utils/functions';
 import { getEmailStatus } from '../../../redux/emailRedux';
+import { fetchId, getAll } from '../../../redux/postsRedux';
 
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-// import { actionAddPost, getAll } from '../../../redux/postsRedux';
 
-const Component = (props) => {
+class Component extends React.Component {
 
-  const { className, location, getEmail } = props;
-  const param = location.state;
+  componentDidMount() {
+    const { fetchOnePost, match } = this.props;
+    fetchOnePost(match.params.id);
+  }
 
-  return (
-    <div className={clsx(className, styles.root)}>
-      <div className={styles.container}>
-        <div className={styles.id}>
-          <h2>Post {param.id}</h2>
-        </div>
+//   componentWillUnmount() {
+//     // fix Warning: Can't perform a React state update on an unmounted component
+//     this.setState = (state,callback)=>{
+//         return;
+//     };
+// }
 
-        <h4>Tytuł ogłoszenia:</h4> {param.title}
-        <h4>Treść ogłoszenia:</h4> {param.content}
-        <h4>E-mail:</h4> {param.email}
-        <h4>Status:</h4> {param.status}
-        <h4>Cena:</h4> {param.price}
-        <h4>Numer telefonu:</h4> {param.phoneNumber}
-        <h4>Lokalizacja:</h4> {param.localization}
-        <h4>Data publikacji:</h4> {formatDate(param.publicDate)}
-        <h4>Data modyfikacji:</h4> {formatDate(param.modDate)}
+  render() {
+    const { className, getEmail, getPost } = this.props;
+    const param = getPost;
 
-        {ifAuthor(getEmail, param.email) ? (
-          <div className={styles.editButton}>
-            <Link
-              className={clsx(styles.linkStyle, styles.name, styles.noselect)}
-              to={{
-                pathname: `/post/${param.id}/edit`,
-                state: param
-              }}>
-              EDIT
-            </Link>
+    return (
+
+      <div className={clsx(className, styles.root)}>
+        <div className={styles.container}>
+          <div className={styles.id}>
+            <h2>Post {param._id}</h2>
           </div>
-        ) : (
-          ''
-        )}
 
-      </div>
-    </div >
-  );
+          <h4>Tytuł ogłoszenia:</h4> {param.title}
+          <h4>Treść ogłoszenia:</h4> {param.content}
+          <h4>E-mail:</h4> {param.email}
+          <h4>Status:</h4> {param.status}
+          <h4>Cena:</h4> {param.price}
+          <h4>Numer telefonu:</h4> {param.phoneNumber}
+          <h4>Lokalizacja:</h4> {param.localization}
+          <h4>Data publikacji:</h4> {formatDate(param.publicDate)}
+          <h4>Data modyfikacji:</h4> {formatDate(param.modDate)}
+
+          {ifAuthor(getEmail, param.email) ? (
+            <div className={styles.editButton}>
+              <Link
+                className={clsx(styles.linkStyle, styles.name, styles.noselect)}
+                to={{
+                  pathname: `/post/${param._id}/edit`,
+                  state: param
+                }}>
+                EDIT
+              </Link>
+            </div>
+          ) : (
+            ''
+          )}
+
+        </div>
+      </div >
+    );
+  };
 };
 
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  location: PropTypes.object,
   getEmail: PropTypes.string,
+  getPost: PropTypes.array,
+  fetchOnePost: PropTypes.func,
+  match: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   getEmail: getEmailStatus(state),
+  getPost: getAll(state),
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   sendForm: (e, value) => {
-//     e.preventDefault();
-//     dispatch(actionAddPost(value));
-//   },
-// });
+const mapDispatchToProps = dispatch => ({
+  fetchOnePost: (id) => dispatch(fetchId(id)),
+});
 
-const Container = connect(mapStateToProps)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   Container as Post,

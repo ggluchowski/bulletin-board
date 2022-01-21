@@ -1,9 +1,16 @@
 import Axios from 'axios';
-import { api } from '../settings';
 
 /* selectors */
-export const getAll = ({ posts }) => posts.data;
+export const getAll = ({ posts }) => posts.data[0]; //tylko dla Post i PostAdd
 export const getFiltered = ({ posts, email }) => posts.data;
+export const getAllPublished = ({ posts }) => {
+  const postType = typeof (posts.data);
+  if (postType === 'object') return posts.data;
+  else {
+    posts.data.filter(post => post.status === 'published');
+  }
+
+};
 
 /* action name creator */
 const reducerName = 'posts';
@@ -24,13 +31,53 @@ export const actionAddPost = payload => ({ payload, type: ADD_POST });
 /* thunk creators */
 export const fetchFromAPI = () => {
   return (dispatch, getState) => {
-    dispatch(fetchStarted());
+    // dispatch(fetchStarted());
 
     Axios
-      .get('http://localhost:3000/posts')
+      .get('http://localhost:8000/api/posts')
       .then(res => {
-        console.log(res);
+        const ifPosts = getState().posts.data;
+        const loadingStatus = getState().posts.loading.active;
+        if (ifPosts.length === 0 && loadingStatus === false)
+          dispatch(fetchSuccess(res.data));
+        if (loadingStatus === true)
+          dispatch(fetchSuccess(res.data));
+      })
+      .catch(err => {
+        dispatch(fetchError(err.message || true));
+      });
+  };
+};
+
+export const fetchId = (id) => {
+  return (dispatch, getState) => {
+
+    Axios
+      .get(`http://localhost:8000/api/posts/${id}`)
+      .then(res => {
         dispatch(fetchSuccess(res.data));
+        dispatch(fetchStarted(res.data));
+      })
+      .catch(err => {
+        dispatch(fetchError(err.message || true));
+      });
+  };
+};
+
+export const postToDB = (data) => {
+  return async (dispatch, getState) => {
+
+    dispatch(fetchStarted());
+
+    await Axios
+      .post('http://localhost:8000/api/posts', data)
+      .then(res => {
+        // console.log(res.status, res.data);
+        // dispatch(actionAddPost(data));
+        const dataTab = [];
+        dataTab.push(data);
+        dispatch(fetchSuccess(dataTab));
+        dispatch(fetchStarted());
       })
       .catch(err => {
         dispatch(fetchError(err.message || true));
@@ -42,10 +89,9 @@ export const putToAPI = (id, title, content, status, price, phoneNumber, localiz
   return async (dispatch, getState) => {
     dispatch(fetchStarted());
 
-    console.log(id, title, content, status, price, phoneNumber, localization, modDate);
-
     Axios
-      .put(`${api.url}/${api.post}/${id}/${api.edit}`, { id: id, title: title, content: content, status: status, price: price, phoneNumber: phoneNumber, localization: localization, modDate: modDate })
+      .put(`http://localhost:8000/api/posts/${id}/edit`, {id, title, content, status, price, phoneNumber, localization, modDate})
+
       .then(res => {
         dispatch(actionAddPost(res.data));
         dispatch(fetchFromAPI());

@@ -9,7 +9,7 @@ import { Button, Label, Input, Row, Col } from 'reactstrap';
 import { FormGroup } from '@material-ui/core';
 
 import styles from './PostAdd.module.scss';
-import { actionAddPost, getAll } from '../../../redux/postsRedux';
+import { getAll, postToDB } from '../../../redux/postsRedux';
 
 class Component extends React.Component {
 
@@ -32,7 +32,7 @@ class Component extends React.Component {
     }
 
     data.publicDate = new Date();
-    data.modDate = '';
+    data.modDate = new Date();
     data.id = uuidv4();
     addPost(data);
     e.target.reset();
@@ -149,7 +149,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addPost: (data) => dispatch(actionAddPost(data)),
+  addPost: (data) => dispatch(postToDB(data)),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);

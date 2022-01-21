@@ -6,15 +6,45 @@ import { ifLogged } from '../../../utils/functions';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
-import { getAll, fetchStarted } from '../../../redux/postsRedux';
+import { fetchFromAPI, getAllPublished } from '../../../redux/postsRedux';
 import { getloginStatus } from '../../../redux/loggedUserRedux';
 import { connect } from 'react-redux';
 
 class Component extends React.Component {
+  state = {
+    time: 300,
+    timer: null,
+  }
 
   componentDidMount() {
     const { fetchData } = this.props;
     fetchData();
+    this.startTimer();
+  }
+
+  componentWillUnmount(){
+    return;
+  }
+
+  step = () => {
+    const { fetchData } = this.props;
+
+    this.setState({
+      time: this.state.time - 1,
+    });
+    if(this.state.time === 0){
+      fetchData();
+      this.setState({
+        time: 300,
+      });
+    }
+  }
+
+  startTimer = () => {
+    this.setState({
+      time: 300,
+      timer: setInterval(() => this.step(), 1000)
+    });
   }
 
   render() {
@@ -29,7 +59,7 @@ class Component extends React.Component {
             {!userData ? (
               getData.map((data, i) => {
                 return < Link to={{
-                  pathname: `/post/${data.id}`,
+                  pathname: `/post/${data._id}`,
                   state: data
                 }}
                   className={styles.link} key={i} href="/" > {data.title}</Link>;
@@ -37,7 +67,7 @@ class Component extends React.Component {
             ) : (
               userData.map((data, i) => {
                 return < Link to={{
-                  pathname: `/post/${data.id}`,
+                  pathname: `/post/${data._id}`,
                   state: data
                 }}
                   className={styles.link} key={i} href="/" > {data.title}</Link>;
@@ -64,12 +94,12 @@ Component.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  getData: getAll(state),
+  getData: getAllPublished(state),
   loggedUser: getloginStatus(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchData: () => dispatch(fetchStarted()),
+  fetchData: () => dispatch(fetchFromAPI()),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);

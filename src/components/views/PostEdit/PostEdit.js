@@ -15,14 +15,14 @@ class Component extends React.Component {
 
   submitForm = (e) => {
     e.preventDefault();
-    const { editPost } = this.props;
+    const { editPost, location } = this.props;
     const data = {};
 
     for (let i = 0; i < (e.target.length - 1); i++) {
       const name = e.target[i].name;
       const value = e.target[i].value;
 
-      if (name === 'id') data.id = value;
+      // if (name === 'id') data.id = value;
       if (name === 'title') data.title = value;
       if (name === 'content') data.content = value;
       // if (name === 'email') data.email = value;
@@ -32,8 +32,7 @@ class Component extends React.Component {
       if (name === 'localization') data.localization = value;
     }
     data.modDate = new Date();
-
-    // console.log(data);
+    data.id = location.state._id;
 
     editPost(data.id, data.title, data.content, data.status, data.price, data.phoneNumber, data.localization, data.modDate);
     e.target.reset();
@@ -56,7 +55,7 @@ class Component extends React.Component {
                   <Input
                     name="id"
                     defaultValue={param.id}
-                    disabled
+                    // disabled
                   >
                   </Input>
                 </FormGroup>
